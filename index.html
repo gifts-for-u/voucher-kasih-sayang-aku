@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Voucher Berhadiah Buat Kamu❤️</title>
+    <style>
+      :root {
+        --bg: #fde8f0;
+        --card: #fff5fb;
+        --accent: #f092c7;
+        --accent-2: #d86fa7;
+        --text: #331022;
+        --used: #f7d7e4;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto;
+        background: linear-gradient(180deg, #fff7fb 0%, var(--bg) 100%);
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+      }
+
+      .wrap {
+        width: 100%;
+        max-width: 920px;
+        position: relative;
+        z-index: 1;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 12px;
+        animation: fadeDown 1.2s ease both;
+      }
+      header h1 {
+        margin: 0;
+        background: linear-gradient(90deg, #fff, #fff5fb);
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(208, 110, 150, 0.12);
+        font-size: clamp(18px, 3.8vw, 28px);
+      }
+      header p {
+        margin: 10px 0 0 0;
+        color: var(--accent-2);
+        font-weight: 600;
+      }
+
+      @keyframes fadeDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* booklet area */
+      .book {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+        align-items: start;
+      }
+
+      .voucher {
+        perspective: 1000px;
+        height: 220px;
+      }
+
+      .card {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1);
+        cursor: pointer;
+        border-radius: 14px;
+      }
+
+      .card.flipped {
+        transform: rotateY(180deg);
+      }
+
+      .face {
+        position: absolute;
+        inset: 0;
+        border-radius: 14px;
+        backface-visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+      }
+
+      .front {
+        background: linear-gradient(180deg, #fff, var(--card));
+      }
+
+      .back {
+        transform: rotateY(180deg);
+        background: linear-gradient(180deg, #fffdfd, #fff0f6);
+      }
+
+      .voucher-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--text);
+        text-align: center;
+        margin-bottom: 6px;
+      }
+      .voucher-sub {
+        font-size: 0.9rem;
+        color: #6b4758;
+        text-align: center;
+      }
+
+      .back .fulltext {
+        font-size: 0.95rem;
+        color: var(--text);
+        text-align: center;
+        margin-bottom: 12px;
+      }
+
+      .redeem-btn {
+        background: var(--accent);
+        color: #33051f;
+        border: 0;
+        padding: 10px 12px;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 6px 14px rgba(208, 110, 150, 0.12);
+      }
+      .redeem-btn[disabled] {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .used-pill {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(255, 250, 250, 0.9);
+        color: #9a2f53;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+      }
+
+      .card.used .front {
+        background: linear-gradient(180deg, var(--used), #fff);
+      }
+      .card.used .back {
+        opacity: 0.95;
+      }
+
+      /* bottom area: music + progress */
+      .bottom {
+        margin-top: 16px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      .controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .play-btn {
+        background: transparent;
+        border: 2px solid var(--accent);
+        padding: 8px 12px;
+        border-radius: 999px;
+        color: var(--accent-2);
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .progress-wrap {
+        flex: 1;
+        min-width: 180px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .progress-bar {
+        height: 10px;
+        background: #ffe7f3;
+        border-radius: 999px;
+        flex: 1;
+        overflow: hidden;
+        box-shadow: inset 0 -2px 6px rgba(0, 0, 0, 0.03);
+      }
+      .progress-bar > i {
+        display: block;
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        transition: width 600ms ease;
+      }
+      .progress-text {
+        font-weight: 700;
+        color: var(--accent-2);
+        min-width: 60px;
+        text-align: right;
+      }
+
+      /* confetti hearts */
+      .heart {
+        position: fixed;
+        pointer-events: none;
+        font-size: 18px;
+        transform-origin: center;
+        animation: rise 1.6s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+      }
+      @keyframes rise {
+        0% {
+          transform: translateY(0) scale(0.9) rotate(0deg);
+          opacity: 1;
+        }
+        60% {
+          transform: translateY(-90px) scale(1.05) rotate(20deg);
+          opacity: 0.95;
+        }
+        100% {
+          transform: translateY(-170px) scale(0.9) rotate(60deg);
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .book {
+          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+          gap: 12px;
+        }
+        .voucher {
+          height: 190px;
+        }
+      }
+
+      /* blur when modal active */
+      body.modal-open .wrap {
+        filter: blur(5px);
+        pointer-events: none;
+        user-select: none;
+      }
+
+      /* final modal */
+      .final-modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        background: rgba(0, 0, 0, 0.4);
+      }
+      .final-modal.show {
+        display: flex;
+      }
+      .final-card {
+        background: var(--card);
+        padding: 20px;
+        border-radius: 14px;
+        width: min(420px, 92%);
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        animation: fadeDown 0.8s ease both;
+      }
+      .final-card h2 {
+        margin: 8px 0;
+      }
+      .final-card p {
+        color: #5b2b3a;
+        margin: 8px 0 16px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Aku punya voucher ni buat kamu❣️</h1>
+        <p>Klaim dulu yu sayang vouchernya😘</p>
+      </header>
+
+      <section class="book" id="book"></section>
+
+      <div class="bottom">
+        <div class="controls">
+          <button id="playBgm" class="play-btn">Play Music</button>
+          <button id="stopBgm" class="play-btn" style="display: none">
+            Pause
+          </button>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-bar"><i id="progressFill"></i></div>
+          <div class="progress-text" id="progressText">0 / 0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- final modal -->
+    <div class="final-modal" id="finalModal" aria-hidden="true">
+      <div class="final-card">
+        <h2>Sayang Mamas Minta Maaf🥺</h2>
+        <p>
+          Terima kasih sudah selalu sabar sama aku. Aku sayang banget sama kamu.
+          Kita nikmati yang ada ya sayang🥺❣️
+        </p>
+        <button class="play-btn" id="closeFinal">Tutup</button>
+      </div>
+    </div>
+
+    <!-- bgm -->
+    <audio id="bgm" loop preload="auto">
+      <source src="bgm.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script>
+      const vouchers = [
+        {
+          title: "Rewatch Film",
+          sub: "Kita nonton ulang film yang kamu suka",
+          full: "Kamu pilih filmnya. Aku akan siapin filmnya. ",
+        },
+        {
+          title: "Pijet ala-ala Mamas",
+          sub: "Pijetan bagian lengan punggung kamu",
+          full: "Kamu aku pijetin bagian lengan punggung kamu kalo abis lari.",
+        },
+        {
+          title: "Challange Mam Sashimi pake Wasabi",
+          sub: "Aku mam sashimi pake wasabi",
+          full: "Nanti pas kita beli sashimi aku mam sashiminya kudu pake wasabi, gabole ngga dan harus kuat sama rasanya.",
+        },
+        {
+          title: "Bergema Sampai Selamanya",
+          sub: "Aku nyanyi lagi ini buat kamu",
+          full: "Aku nanti nyanyiin lagu bergema sampai selamanya dan harus hafal dan bagus.",
+        },
+        {
+          title: "Bebas Request",
+          sub: "Kamu dapet request apa aja",
+          full: "Kamu boleh request aku nyanyiin atau minta aku bikinin sesuatu yang kamu mau dan yang kamu tau kalo itu aku bisa buat.",
+        },
+      ];
+
+      const book = document.getElementById("book");
+      const progressFill = document.getElementById("progressFill");
+      const progressText = document.getElementById("progressText");
+      const finalModal = document.getElementById("finalModal");
+      const closeFinal = document.getElementById("closeFinal");
+
+      vouchers.forEach((v) => {
+        const wrap = document.createElement("div");
+        wrap.className = "voucher";
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const front = document.createElement("div");
+        front.className = "face front";
+        const usedPill = document.createElement("div");
+        usedPill.className = "used-pill";
+        usedPill.innerText = "USED";
+        usedPill.style.display = "none";
+        front.appendChild(usedPill);
+        const t = document.createElement("div");
+        t.className = "voucher-title";
+        t.innerText = v.title;
+        const s = document.createElement("div");
+        s.className = "voucher-sub";
+        s.innerText = v.sub;
+        front.appendChild(t);
+        front.appendChild(s);
+
+        const back = document.createElement("div");
+        back.className = "face back";
+        const full = document.createElement("div");
+        full.className = "fulltext";
+        full.innerText = v.full;
+        const btn = document.createElement("button");
+        btn.className = "redeem-btn";
+        btn.innerText = "Redeem";
+        back.appendChild(full);
+        back.appendChild(btn);
+
+        card.appendChild(front);
+        card.appendChild(back);
+        wrap.appendChild(card);
+        book.appendChild(wrap);
+
+        // flip
+        card.addEventListener("click", (e) => {
+          if (card.classList.contains("used")) return;
+          if (!e.target.classList.contains("redeem-btn")) {
+            card.classList.toggle("flipped");
+          }
+        });
+
+        // redeem
+        btn.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          if (card.classList.contains("used")) return;
+          card.classList.add("used");
+          usedPill.style.display = "inline-block";
+          btn.disabled = true;
+          spawnHeartsFrom(btn);
+          updateProgress();
+          card.classList.remove("flipped");
+        });
+      });
+
+      function updateProgress() {
+        const usedCount = document.querySelectorAll(".card.used").length;
+        const total = vouchers.length;
+        const pct = Math.round((usedCount / total) * 100);
+        progressFill.style.width = pct + "%";
+        progressText.innerText = usedCount + " / " + total;
+        if (usedCount === total) {
+          setTimeout(() => showFinal(), 600);
+        }
+      }
+
+      function spawnHeartsFrom(el) {
+        const rect = el.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const emojis = ["❤️", "🩷", "💛", "💚", "🩵", "💜", "🧡"];
+        for (let i = 0; i < 10; i++) {
+          const h = document.createElement("div");
+          h.className = "heart";
+          h.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+          document.body.appendChild(h);
+          h.style.left = centerX + (Math.random() * 40 - 20) + "px";
+          h.style.top = centerY + (Math.random() * 20 - 10) + "px";
+          setTimeout(() => h.remove(), 2000);
+        }
+      }
+
+      function showFinal() {
+        document.body.classList.add("modal-open");
+        finalModal.classList.add("show");
+        finalModal.setAttribute("aria-hidden", "false");
+      }
+      closeFinal.addEventListener("click", () => {
+        document.body.classList.remove("modal-open");
+        finalModal.classList.remove("show");
+        finalModal.setAttribute("aria-hidden", "true");
+      });
+
+      // Music controls
+      const bgm = document.getElementById("bgm");
+      const playBgm = document.getElementById("playBgm");
+      const stopBgm = document.getElementById("stopBgm");
+
+      playBgm.addEventListener("click", () => {
+        bgm.play().catch(() => {});
+        playBgm.style.display = "none";
+        stopBgm.style.display = "inline-block";
+      });
+      stopBgm.addEventListener("click", () => {
+        bgm.pause();
+        playBgm.style.display = "inline-block";
+        stopBgm.style.display = "none";
+      });
+
+      progressText.innerText = "0 / " + vouchers.length;
+    </script>
+  </body>
+</html>
